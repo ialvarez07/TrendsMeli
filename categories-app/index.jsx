@@ -5,35 +5,45 @@ class CategoriesApp extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = { categories: [] }
+        this.state = { listado: [] , auxiliar: []}
+
     }
+
+
 
     componentWillMount() {
         var listado = [];
         fetch('https://api.mercadolibre.com/sites/MLA/trends/search')
             .then((response) => response.json())
             .then((categories) => {
+                var urls = []
                 categories.forEach(function(category){
                     var url = "https://api.mercadolibre.com/sites/MLA/search?q=" + category.keyword;
                     var res = encodeURI(url);
-                   fetch(res)
-                   .then((resDetail) => resDetail.json())
-                   .then((categoryDetail) => {
-                    listado.push({name: category.keyword, picture: categoryDetail.results[0].thumbnail})
-
-                   })
+                    urls.push(res);
                 });
-                this.setState({ listado: listado})
-            })
+                Promise.all(urls.map(url =>
+                    fetch(url).then(resp => resp.json())
+                )).then(resp => {
+                    resp.forEach(function(category) {
+                        listado.push({name: category.query, picture: category.results[0].thumbnail});
+                    });
+                    this.setState({listado : listado})
+                })
+            });
+
+
+
+
     }
 
     render() {
-        if (this.state.categories.length > 0) {
+
+        if (this.state.listado.length > 0) {
             return (
                 <div className="container-fluid">
-
-
-                    {<CategoryGrid listado = {this.state.categories} col={5} rows={5} />}
+                    {console.log(this.state.listado)}
+                    {<CategoryGrid listado = {this.state.listado} col={5} rows={5} />}
 
                 </div>
             )

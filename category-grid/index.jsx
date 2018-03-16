@@ -23,6 +23,7 @@ class CategoryGrid extends React.Component {
     }
 
    render() {
+        console.log(this.props.listado);
        let rows = [];
        var rowsLenght = this.props.rows;
        var colLenght = this.props.col;
@@ -34,7 +35,7 @@ class CategoryGrid extends React.Component {
                var styleCell = {height: "100px", backgroundColor: this.get_random_color(), align:"center"};
                let cellID = `cell${i}-${idx}`;
                var square = <CategorySquare cellId={cellID} styleCell={styleCell}
-                                            name={this.props.listado[Math.floor(Math.random() * this.props.listado.length)].keyword}/>;
+                                            name={this.props.listado[Math.floor(Math.random() * this.props.listado.length)].name}/>;
                cell.push(square);
            }
            rows.push(<tr key={i} id={rowID}>{cell}</tr>);
@@ -50,7 +51,7 @@ class CategoryGrid extends React.Component {
            let cellId = [`cell${rowRandom}-${cellRandom}`];
            let cell = document.getElementById([cellId]);
 
-           cell.innerText = listado[Math.floor(Math.random() * listado.length)].keyword;
+           cell.innerText = listado[Math.floor(Math.random() * listado.length)].name;
            cell.style.backgroundColor=getColor();
 
        },100);
