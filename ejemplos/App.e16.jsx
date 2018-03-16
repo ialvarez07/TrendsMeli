@@ -27,7 +27,7 @@ class App extends React.Component {
       return (
          <div>
             <input value = {this.state.data} onChange = {this.updateState} 
-               ref = "myInput"></input>
+               ref = "myInput"/>
             <button onClick = {this.clearInput}>CLEAR</button>
             <h4>{this.state.data}</h4>
          </div>
