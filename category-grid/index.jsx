@@ -11,43 +11,50 @@ class CategoryGrid extends React.Component {
             rows: this.props.rows,
             cols: this.props.col
         };
-        this.changeCategory = this.changeCategory.bind(this);
     }
-
-    changeCategory(){
-
+    get_random_color()
+    {
+        var color = "";
+        for(var i = 0; i < 3; i++) {
+            var sub = Math.floor(Math.random() * 256).toString(16);
+            color += (sub.length == 1 ? "0" + sub : sub);
+        }
+        return "#" + color;
     }
 
    render() {
        let rows = [];
        var rowsLenght = this.props.rows;
        var colLenght = this.props.col;
+
        for (var i = 0; i < rowsLenght; i++){
            let rowID = `row${i}`;
            let cell = [];
            for (var idx = 0; idx < colLenght; idx++){
-
+               var styleCell = {height: "100px", backgroundColor: this.get_random_color(), align:"center"};
                let cellID = `cell${i}-${idx}`;
-               var square = <CategorySquare cellId={cellID}
+               var square = <CategorySquare cellId={cellID} styleCell={styleCell}
                                             name={this.props.listado[Math.floor(Math.random() * this.props.listado.length)].keyword}/>;
                cell.push(square);
            }
-           rows.push(<tr key={i} id={rowID}>{cell}</tr>)
-           this.changeCategory();
+           rows.push(<tr key={i} id={rowID}>{cell}</tr>);
        }
        var styleTable = {height:"100%"};
-       var listado = this.props.listado
-
+       var listado = this.props.listado;
        //ReactDOM.findDOMNode(`cell${rowRandom}-${cellRandom}`).style.color = 'red';
+       var getColor = this.get_random_color;
        setInterval(function(){
+
            let rowRandom = Math.floor(Math.random() * rowsLenght);
            let cellRandom = Math.floor(Math.random() * colLenght);
-           let cellId = [`cell${rowRandom}-${cellRandom}`]
+           let cellId = [`cell${rowRandom}-${cellRandom}`];
            let cell = document.getElementById([cellId]);
-           console.log(<CategorySquare cellId={cellId}
-                                       name={listado[Math.floor(Math.random() * listado.length)].keyword}/>);
 
-       },5000);
+           cell.innerText = listado[Math.floor(Math.random() * listado.length)].keyword;
+           cell.style.backgroundColor=getColor();
+
+       },100);
+
       return (
 
              <div className="container">

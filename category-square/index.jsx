@@ -12,10 +12,9 @@ class CategorySquare extends React.Component {
         return "#" + color;
     }
     render() {
-
-        var styleCell = {height: "100px", backgroundColor: this.get_random_color(), align:"center"};
+        console.log(this.props.styleCell);
         return (
-                <td align="center" key={this.props.cellId} id={this.props.cellId}  style={styleCell} >{this.props.name}</td>
+                <td align="center" key={this.props.cellId} id={this.props.cellId}  style={this.props.styleCell} >{this.props.name}</td>
         );
     }
 }
